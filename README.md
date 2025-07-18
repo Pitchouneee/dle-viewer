@@ -1,5 +1,3 @@
-[![Vercel](https://vercel.com/api/logos/vercel/logo.svg)](https://dle-answers.vercel.app)
-
 # *dle Answers Viewer 🕹️
 
 A modern React interface to display real-time answers from community *dle games: LoLdle, Pokédle, Smashdle, Dotadle, Onepiecedle, Narutodle...
@@ -27,8 +25,8 @@ A modern React interface to display real-time answers from community *dle games:
 ## 🛠️ Installation locale
 
 ```bash
-git clone https://github.com/ton-pseudo/dle-answers-viewer.git
-cd dle-answers-viewer
+git clone https://github.com/Pitchouneee/dle-viewer.git
+cd dle-viewer
 npm install
 npm run dev
 ```
