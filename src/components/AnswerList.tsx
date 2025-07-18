@@ -1,65 +1,41 @@
-interface AnswerListProps {
+import type { AnswerEntry } from '../types/answers';
+import AnswerCard from './AnswerCard';
+
+interface Props {
     region: string;
-    answers: Record<string, any>; // Pour simplifier ici, on peut typer mieux plus tard
+    game: string;
+    answers: Record<string, AnswerEntry>;
 }
 
-function AnswerList({ region, answers }: AnswerListProps) {
-    const keys = Object.keys(answers || {});
+export default function AnswerList({ answers, game }: Props) {
+    const ignoredTypesByGame: Record<string, string[]> = {
+        loldle: [],
+        pokedle: ['splash', 'ability', 'quote'],
+        smashdle: ['splash', 'ability', 'quote'],
+        dotadle: ['quote'],
+        onepiecedle: ['splash', 'ability', 'quote'],
+        narutodle: ['splash', 'ability'],
+    };
+
+    const ignoredTypes = ignoredTypesByGame[game] || [];
+
+    const keys = Object.keys(answers || {}).filter((key) => !ignoredTypes.includes(key));
 
     return (
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {keys.map((key) => {
-                const entry = answers[key];
-                const image =
-                    entry.splash_img_url || entry.ability_img_url || entry.image || null;
+        <div className="space-y-6">
+            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+                {keys.map((key, index) => (
+                    <AnswerCard key={key} type={key} entry={answers[key]} index={index} game={game} />
+                ))}
+            </div>
 
-                return (
-                    <div
-                        key={key}
-                        className="bg-white rounded-xl shadow-sm p-4 flex flex-col items-center text-center space-y-2"
-                    >
-                        {/* Type */}
-                        <h3 className="text-sm font-semibold capitalize text-gray-500">
-                            {key}
-                        </h3>
-
-                        {/* Image */}
-                        {image && (
-                            <img
-                                src={image}
-                                alt={entry.champion_name}
-                                className="w-full max-w-[200px] aspect-square object-cover rounded"
-                            />
-                        )}
-
-                        {/* Champion */}
-                        <div className="text-lg font-bold text-blue-700">
-                            {entry.champion_name}
-                        </div>
-
-                        {/* Optional Question */}
-                        {entry.question && typeof entry.question === "string" && (
-                            <p className="italic text-xs text-gray-600 px-2">
-                                “{entry.question}”
-                            </p>
-                        )}
-
-                        {/* Optional audio */}
-                        {entry.audio_url && (
-                            <audio controls className="w-full">
-                                <source src={entry.audio_url} type="audio/ogg" />
-                            </audio>
-                        )}
-
-                        {/* Game number */}
-                        <div className="text-[10px] text-gray-400">
-                            Game #{entry.game_numero}
-                        </div>
-                    </div>
-                );
-            })}
+            {keys.length === 0 && (
+                <div className="text-center py-12">
+                    <div className="text-6xl mb-4">🔍</div>
+                    <p className="text-gray-400 text-lg">Aucun résultat trouvé</p>
+                    <p className="text-gray-500 text-sm mt-2">Essayez avec un autre terme de recherche</p>
+                </div>
+            )}
         </div>
     );
 }
-
-export default AnswerList

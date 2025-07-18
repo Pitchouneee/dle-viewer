@@ -1,5 +1,6 @@
 import AES from 'crypto-js/aes';
 import UTF8 from 'crypto-js/enc-utf8';
+import type { Answers, AnswerEntry } from '../types/answers';
 
 const DOMAINS: Record<string, string> = {
     loldle: "loldle.net",
@@ -16,10 +17,18 @@ const KEY_ANSWERS = "QhDZJfngdx";
 const decrypt = (str: string, key: string): string =>
     AES.decrypt(str, key).toString(UTF8);
 
-export interface Answers {
-    europe: Record<string, string>;
-    america: Record<string, string>;
-}
+// Fonction de normalisation pour sécuriser les données brutes
+const normalizeEntry = (raw: any): AnswerEntry => {
+    return {
+        champion_name: raw.champion_name,
+        splash_img_url: raw.splash_img_url ?? undefined,
+        ability_img_url: raw.ability_img_url ?? undefined,
+        image: raw.image ?? undefined,
+        question: typeof raw.question === 'string' ? raw.question : undefined,
+        audio_url: raw.audio_url ?? undefined,
+        game_numero: raw.game_numero,
+    };
+};
 
 export async function fetchAnswers(game: string): Promise<Answers> {
     const domain = DOMAINS[game] || DOMAINS["loldle"];
@@ -31,21 +40,29 @@ export async function fetchAnswers(game: string): Promise<Answers> {
         },
     });
 
-    if (!resp.ok) throw new Error("Erreur lors de la récupération");
+    if (!resp.ok) throw new Error("Error while fetching");
 
     const cypheredAnswers = await resp.text();
     const rawAnswers = JSON.parse(decrypt(cypheredAnswers, KEY_RESPONSE_BODY));
 
     const answers: Answers = { europe: {}, america: {} };
 
-    Object.entries(rawAnswers).forEach(([k, v]) => {
-        if (k.includes("answerName")) return;
+    for (const [key, value] of Object.entries(rawAnswers)) {
+        if (key.includes("answerName")) continue;
 
-        const region = k.split("_")[2] as "europe" | "america";
-        const question = k.replace(`_${region}`, "").replace("_answerEncrypted", "");
+        try {
+            const region = key.split("_")[2] as 'europe' | 'america';
+            const questionType = key.replace(`_${region}`, "").replace("_answerEncrypted", "");
+            const decrypted = decrypt(value as string, KEY_ANSWERS);
+            const parsed = JSON.parse(decrypted);
 
-        answers[region][question] = JSON.parse(decrypt(v as string, KEY_ANSWERS));
-    });
+            const entry = normalizeEntry(parsed);
+
+            answers[region][questionType] = entry;
+        } catch (err) {
+            console.warn("Parsing error for ", key, err);
+        }
+    }
 
     return answers;
 }

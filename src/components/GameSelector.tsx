@@ -4,31 +4,35 @@ interface GameSelectorProps {
 }
 
 const GAMES = [
-    { id: "loldle", label: "LoLdle" },
-    { id: "pokedle", label: "Pokédle" },
-    { id: "smashdle", label: "Smashdle" },
-    { id: "dotadle", label: "Dotadle" },
-    { id: "onepiecedle", label: "Onepiecedle" },
-    { id: "narutodle", label: "Narutodle" },
+    { id: "loldle", label: "LoLdle", icon: "🏆" },
+    { id: "pokedle", label: "Pokédle", icon: "⚡" },
+    { id: "smashdle", label: "Smashdle", icon: "🥊" },
+    { id: "dotadle", label: "Dotadle", icon: "⚔️" },
+    { id: "onepiecedle", label: "Onepiecedle", icon: "🏴‍☠️" },
+    { id: "narutodle", label: "Narutodle", icon: "🍃" },
 ];
 
-function GameSelector({ game, onChange }: GameSelectorProps) {
+export default function GameSelector({ game, onChange }: GameSelectorProps) {
     return (
-        <div className="flex flex-wrap gap-3 justify-center mb-6">
-            {GAMES.map(g => (
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+            {GAMES.map((g) => (
                 <button
                     key={g.id}
                     onClick={() => onChange(g.id)}
-                    className={`px-4 py-2 rounded-full border transition 
-                        ${game === g.id
-                            ? "bg-blue-600 text-white border-blue-600"
-                            : "bg-white text-gray-800 border-gray-300 hover:bg-gray-100"}`}
+                    className={`group relative px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 ${game === g.id
+                        ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/25'
+                        : 'bg-white/10 backdrop-blur-sm text-gray-300 hover:bg-white/20 hover:text-white'
+                        }`}
                 >
-                    {g.label}
+                    <div className="flex items-center gap-2">
+                        <span className="text-lg">{g.icon}</span>
+                        <span>{g.label}</span>
+                    </div>
+                    {game === g.id && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 -z-10"></div>
+                    )}
                 </button>
             ))}
         </div>
     );
 }
-
-export default GameSelector
