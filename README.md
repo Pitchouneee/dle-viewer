@@ -2,13 +2,13 @@
 
 A modern React interface to display real-time answers from community *dle games: LoLdle, Pokédle, Smashdle, Dotadle, Onepiecedle, Narutodle...
 
-## 🚀 Aperçu
+## 🚀 Overview
 
 > Dynamically displays answers (Splash Art, Abilities, Quotes, etc.) depending on the selected game and region, with a responsive and interactive design.
 
 ![preview](./screenshot.png)
 
-## ✨ Fonctionnalités
+## ✨ Features
 
 - 🎮 Game selector (*dle)
 - 🌍 Region selector (Europe / America)
@@ -22,7 +22,7 @@ A modern React interface to display real-time answers from community *dle games:
 - [Tailwind CSS](https://tailwindcss.com)
 - [Lucide Icons](https://lucide.dev/)
 
-## 🛠️ Installation locale
+## 🛠️ Local installation
 
 ```bash
 git clone https://github.com/Pitchouneee/dle-viewer.git
