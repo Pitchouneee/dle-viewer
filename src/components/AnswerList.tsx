@@ -12,7 +12,7 @@ export default function AnswerList({ answers, game }: Props) {
         loldle: [],
         pokedle: ['splash', 'ability', 'quote'],
         smashdle: ['splash', 'ability', 'quote'],
-        dotadle: ['quote'],
+        dotadle: ['splash', 'emoji'],
         onepiecedle: ['splash', 'ability', 'quote'],
         narutodle: ['splash', 'ability'],
     };
