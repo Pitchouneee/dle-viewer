@@ -17,7 +17,7 @@ const KEY_ANSWERS = "QhDZJfngdx";
 const decrypt = (str: string, key: string): string =>
     AES.decrypt(str, key).toString(UTF8);
 
-// Fonction de normalisation pour sécuriser les données brutes
+// Normalization function to secure raw data
 const normalizeEntry = (raw: any): AnswerEntry => {
     return {
         champion_name: raw.champion_name,

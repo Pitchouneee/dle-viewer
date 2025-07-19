@@ -20,7 +20,18 @@ export default function AnswerCard({ type, entry, index, game }: Props) {
         ability: { icon: '⚡', color: 'from-blue-500 to-cyan-500', label: 'Ability' },
         quote: { icon: '💬', color: 'from-green-500 to-emerald-500', label: 'Quote' },
         classic: { icon: '👑', color: 'from-yellow-500 to-orange-500', label: 'Classic' },
-        emoji: { icon: '😊', color: 'from-red-500 to-pink-500', label: 'Emoji' }
+        emoji: { icon: '😊', color: 'from-red-500 to-pink-500', label: 'Emoji' },
+        card: { icon: '🃏', color: 'from-indigo-500 to-purple-600', label: 'Card' },
+        flavor: { icon: '🍭', color: 'from-pink-400 to-pink-600', label: 'Flavor Text' },
+        silhouette: { icon: '👤', color: 'from-gray-500 to-gray-700', label: 'Silhouette' },
+        finalSmash: { icon: '💥', color: 'from-red-600 to-orange-600', label: 'Final Smash' },
+        kirby: { icon: '🌟', color: 'from-pink-500 to-yellow-400', label: 'Kirby Copy' },
+        loadingscreen: { icon: '⏳', color: 'from-slate-500 to-slate-700', label: 'Loading Screen' },
+        laugh: { icon: '😆', color: 'from-yellow-400 to-pink-400', label: 'Laugh' },
+        wanted: { icon: '📜', color: 'from-yellow-700 to-orange-800', label: 'Wanted Poster' },
+        devilFruit: { icon: '🍎', color: 'from-red-500 to-purple-500', label: 'Devil Fruit' },
+        eye: { icon: '👁️', color: 'from-indigo-600 to-blue-600', label: 'Eye' },
+        jutsu: { icon: '🌀', color: 'from-blue-700 to-indigo-700', label: 'Jutsu' }
     };
 
     const config = typeConfig[type as keyof typeof typeConfig] || {
@@ -36,8 +47,6 @@ export default function AnswerCard({ type, entry, index, game }: Props) {
             onepiecedle: { splash: true, ability: true, quote: true },
             narutodle: { splash: true, ability: true },
         };
-
-        console.log(game)
 
         return !(ignored[game]?.[field]);
     }
