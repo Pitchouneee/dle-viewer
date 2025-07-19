@@ -10,11 +10,11 @@ interface Props {
 export default function AnswerList({ answers, game }: Props) {
     const ignoredTypesByGame: Record<string, string[]> = {
         loldle: [],
-        pokedle: ['splash', 'ability', 'quote'],
+        pokedle: ['splash', 'ability', 'quote', 'emoji'],
         smashdle: ['splash', 'ability', 'quote'],
         dotadle: ['splash', 'emoji'],
-        onepiecedle: ['splash', 'ability', 'quote'],
-        narutodle: ['splash', 'ability'],
+        onepiecedle: ['splash', 'ability', 'quote', 'emoji'],
+        narutodle: ['splash', 'ability', 'emoji'],
     };
 
     const ignoredTypes = ignoredTypesByGame[game] || [];
